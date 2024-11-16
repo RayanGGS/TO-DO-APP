@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <header>
+        <div class="logo"><a href="#">TO-DO.</a></div>
+        <div class="buttons">
+            <ul>
+                <li><a class="add-btn" href="#">ADD TO-DO</a></li>
+                <li><a href="#" id="logout-btn">LOGOUT</a></li>
+            </ul>
+        </div>
+    </header>
+    <main>
+
+        <!-- Overlay for Logout Confirmation -->
+        <div class="logoutOverlay" id="logout-overlay" style="display: none;"></div>
+
+        <!-- Logout Confirmation Modal -->
+        <div class="center-wrapper" id="logout-form-wrapper" style="display: none;">
+            <div class="logout abcd1234">
+                <div class="texts">
+                    <p>Are you sure you want to log out?</p>
+                    <button class="close-logout-btn">✖</button>
+                    <button class="logout-confirm-btn" id="logout-confirm">LOG OUT</button>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!-- Overlay for Add Todo -->
+        <div class="overlay" style="display: none;"></div>
+        <!-- Add Todo Form -->
+        <div class="center-wrapper" id="add-form-wrapper" style="display: none;">
+            <div class="container">
+                <h1>Add Todo</h1>
+                <button class="close-btn">✖</button>
+                <form id="todo-form" method="post" action="/add">
+                    <input type="text" id="todo-input" placeholder="Enter your todo..." name="todo" required>
+                    <button class="add">ADD TO-DO</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Overlay for Edit Todo -->
+        <div class="editOverlay" style="display: none;"></div>
+        <!-- Edit Todo Form -->
+        <div class="center-wrapper" id="edit-form-wrapper" style="display: none;">
+            <div class="container">
+                <h1>Edit Todo</h1>
+                <button class="close-edit-btn">✖</button>
+                <form id="edit-todo-form" method="post" action="/update">
+                    <input type="text" id="edit-todo-input" placeholder="Edit your todo..." name="todo" required>
+                    <input type="hidden" id="edit-todo-id" name="todoID"> <!-- Hidden field to store the todo ID -->
+                    <button class="update">UPDATE TODO</button>
+                </form>
+            </div>
+        </div>
+
+        <h1>Welcome to your dashboard <%= user.name %>!</h1>
+        <h3>This is your dashboard. You can perform all the actions here.</h3>
+        <div class="todo">
+            <div class="box">
+                <h1>To-do List</h1>
+                <ul>
+                    <% if (user.data.length> 0) { %>
+                        <% user.data.forEach((element)=> { %>
+                            <li class="<%= element.completed ? 'completed' : '' %>">
+                                <input type="checkbox" id="<%= element._id %>" <%=element.completed ? 'checked' : '' %>
+                                >
+                                <label for="<%= element._id %>">
+                                    <%= element.todos %>
+                                </label>
+                                <span class="todo-icons">
+                                    <a href="#" class="edit-icon" title="Edit Todo" data-id="<%= element._id %>"
+                                        data-todo="<%= element.todos %>">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="/delete/<%= element._id %>" class="delete-icon" title="Delete Todo">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </span>
+                            </li>
+                            <% }); %>
+                </ul>
+                <% } else { %>
+                    <p class="oops">Oops! Nothing to show here. Create new todo</p>
+                    <% } %>
+            </div>
+        </div>
+    </main>
+    <script>
+        // Selectors for Add Todo
+        var closebtn = document.querySelector(".close-btn");
+        var addFormWrapper = document.getElementById("add-form-wrapper");
+        var addOverlay = document.querySelector(".overlay");
+        var addbtn = document.querySelector(".add-btn");
+
+        // Event listener to show the Add Todo form and overlay
+        addbtn.addEventListener("click", function () {
+            addFormWrapper.style.display = "block";
+            addOverlay.style.display = "block"; // Show overlay when form is open
+        });
+
+        // Event listener to close the Add Todo form and overlay
+        closebtn.addEventListener("click", function () {
+            addFormWrapper.style.display = "none";
+            addOverlay.style.display = "none"; // Hide overlay when form is closed
+        });
+
+        // Selectors for Edit Todo
+        var editFormWrapper = document.getElementById("edit-form-wrapper");
+        var editTodoInput = document.getElementById("edit-todo-input");
+        var editTodoIdInput = document.getElementById("edit-todo-id");
+
+        // Event listener for Edit Todo icons
+        document.querySelectorAll('.edit-icon').forEach(function (editIcon) {
+            editIcon.addEventListener('click', function (event) {
+                event.preventDefault(); // Prevent default link behavior
+                const todoID = this.getAttribute('data-id');
+                const todoText = this.getAttribute('data-todo');
+
+                // Populate the edit form with the current todo text and ID
+                editTodoInput.value = todoText;
+                editTodoIdInput.value = todoID;
+
+                // Show the edit form and overlay
+                editFormWrapper.style.display = "block";
+                addOverlay.style.display = "block"; // Use the same overlay for both forms
+            });
+        });
+
+        // Event listener to close the Edit Todo form and overlay
+        document.querySelector(".close-edit-btn").addEventListener("click", function () {
+            editFormWrapper.style.display = "none";
+            addOverlay.style.display = "none"; // Hide overlay when form is closed
+        });
+
+        // Handle the edit form submission
+        document.getElementById("edit-todo-form").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent default form submission
+            const todoID = editTodoIdInput.value;
+            const updatedTodo = editTodoInput.value;
+
+            fetch(`/edit/${todoID}`, { // Update this line to match the new route
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ todo: updatedTodo }),
+                credentials: 'include' // Include cookies for authentication
+            }).then(response => {
+                if (response.ok) {
+                    // Update the todo item in the list without reloading the page
+                    const todoItem = document.querySelector(`input[type="checkbox"][id="${todoID}"]`).closest('li');
+                    todoItem.querySelector('label').textContent = updatedTodo; // Update the label with the new todo text
+                    editFormWrapper.style.display = "none"; // Hide the edit form
+                    addOverlay.style.display = "none"; // Hide overlay
+                } else {
+                    console.error('Error updating todo');
+                }
+            }).catch(error => console.error('Network error:', error));
+        });
+        // Function to handle checkbox change event
+        document.querySelectorAll('.todo input[type="checkbox"]').forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                const todoID = this.id; // Get the ID of the todo
+                fetch(`/update/${todoID}`, {
+                    method: 'POST',
+                    credentials: 'include' // Include cookies for authentication
+                }).then(response => {
+                    if (response.ok) {
+                        if (this.checked) {
+                            this.closest('li').classList.add('completed');
+                        } else {
+                            this.closest('li').classList.remove('completed');
+                        }
+                    } else {
+                        console.error('Error updating todo status');
+                    }
+                }).catch(error => console.error('Network error:', error));
+            });
+        });
+
+
+
+
+
+        //logout
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Selectors for Logout Confirmation
+            var logoutFormWrapper = document.getElementById("logout-form-wrapper");
+            var logoutOverlay = document.getElementById("logout-overlay");
+            var logoutBtn = document.getElementById("logout-btn");
+
+            // Event listener to show the Logout Confirmation modal and overlay
+            logoutBtn.addEventListener("click", function (event) {
+                event.preventDefault(); // Prevent default link behavior
+                logoutFormWrapper.style.display = "block"; // Show modal
+                logoutOverlay.style.display = "block"; // Show overlay
+            });
+
+            // Event listener to close the Logout Confirmation modal and overlay
+            document.querySelector(".close-logout-btn").addEventListener("click", function () {
+                logoutFormWrapper.style.display = "none"; // Hide modal
+                logoutOverlay.style.display = "none"; // Hide overlay
+            });
+
+            // Event listener for Logout Confirmation button
+            document.getElementById("logout-confirm").addEventListener("click", function () {
+                fetch('/logout', {
+                    method: 'POST',
+                    credentials: 'include' // Include cookies for authentication
+                }).then(response => {
+                    return response.text(); // Get the response text
+                }).then(message => {
+                    document.querySelector(".abcd1234").style.display = "none"// Display the message in the modal
+                    // Optionally, you can hide the modal after a few seconds or keep it open
+                    setTimeout(() => {
+                        logoutFormWrapper.style.display = "none"; // Hide modal
+                        logoutOverlay.style.display = "none"; // Hide overlay
+                        window.location.href = '/'; // Redirect to home page
+                    }, 2000); // Adjust the timeout as needed
+                }).catch(error => {
+                    console.error('Network error:', error);
+                    document.querySelector(".abcd1234").style.display = "none"
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

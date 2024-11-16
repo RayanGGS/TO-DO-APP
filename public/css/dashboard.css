@@ -1,0 +1,660 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Montserrat", serif;
+    background-color: #F5F5F5;
+    position: relative;
+    /* Set position relative to allow absolute positioning of children */
+    height: 100vh;
+    /* Ensure body takes full viewport height */
+}
+
+header {
+    display: flex;
+    padding: 30px;
+    background-color: rgba(180, 215, 255, 0.986);
+    position: relative;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+header ul {
+    list-style: none;
+}
+
+header ul li a {
+    padding: 10px;
+    border-radius: 7px;
+    border: 1px solid rgba(160, 0, 0, 0.986);
+    transition: 0.3s ease;
+    color: rgba(160, 0, 0, 0.986);
+    text-decoration: none;
+}
+
+header ul li a:hover {
+    background-color: rgba(160, 0, 0, 0.986);
+    color: #fff;
+    border: 1px solid rgba(160, 0, 0, 0.986);
+}
+
+.logo a {
+    font-size: 20px;
+    color: #111;
+    text-decoration: none;
+}
+
+main h1 {
+    font-weight: 400;
+    margin: 20px;
+}
+
+main h3 {
+    font-weight: 400;
+    margin: 20px;
+}
+
+
+
+.add {
+    color: #111;
+    border: 1px solid #111;
+}
+
+.buttons ul {
+    display: flex;
+    gap: 20px;
+}
+
+.add:hover {
+    border: 1px solid #111;
+    color: #111;
+    background-color: transparent
+}
+
+.center-wrapper {
+    display: flex;
+    /* Use Flexbox for centering */
+    justify-content: center;
+    /* Center horizontally */
+    align-items: center;
+    /* Center vertically */
+    position: absolute;
+    /* Position absolute to allow centering */
+    top: 50%;
+    /* Center vertically */
+    left: 50%;
+    /* Center horizontally */
+    transform: translate(-50%, -50%);
+    /* Center the wrapper */
+    z-index: 1;
+    /* Lower z-index for the wrapper */
+    display: none;
+}
+
+.container {
+    max-width: 500px;
+    /* Set a maximum width for the container */
+    width: 100%;
+    /* Allow the container to take full width up to max-width */
+    background: white;
+    /* Background color of the container */
+    padding: 20px;
+    /* Padding inside the container */
+    border-radius: 8px;
+    /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow for depth */
+    z-index: 2;
+    /* Set z-index to 2 */
+}
+
+/* Keep your existing styles for form and input */
+form {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    gap: 30px;
+    margin: 20px;
+}
+
+input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid rgba(119, 183, 255, 0.986);
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus {
+    border-color: #0056b3;
+}
+
+.container button {
+    border: 1px solid #111;
+    color: #111;
+    border-radius: 7px;
+    padding: 10px;
+    background-color: #fff;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+.container .add:hover {
+    border: 1px solid #0056b3;
+    color: #0056b3;
+}
+
+.container .close-btn {
+    position: absolute;
+    /* Position it absolutely within the container */
+    top: 10px;
+    /* Distance from the top */
+    right: 10px;
+    /* Distance from the right */
+    background-color: transparent;
+    /* Transparent background */
+    border: none;
+    /* No border */
+    color: #d00000;
+    /* Red color for visibility */
+    font-size: 20px;
+    /* Font size */
+    cursor: pointer;
+    /* Pointer cursor on hover */
+    width: 40px;
+    /* Width of the button */
+    height: 40px;
+    /* Height of the button */
+    transition: 0.3s ease;
+    /* Smooth transition for hover effect */
+}
+
+.container .close-btn:hover {
+    color: #9e0000;
+    /* Light red background on hover */
+    border: none;
+}
+
+.add-btn {
+    padding: 10px;
+    color: #111;
+    background-color: transparent;
+    border-radius: 7px;
+    border: 1px solid #111;
+    cursor: pointer;
+}
+
+.add-btn:hover {
+    padding: 10px;
+    color: #111;
+    background-color: transparent;
+    border-radius: 7px;
+    border: 1px solid #111;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+
+.todo h1 {
+    margin: 40px 20px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-decoration: underline;
+    color: #333;
+}
+
+.todo ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 30px;
+}
+
+.todo li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.todo li:last-child {
+    border-bottom: none;
+}
+
+/* Hide the default checkbox */
+.todo input[type="checkbox"] {
+    display: none;
+    /* Hide the default checkbox */
+}
+
+/* Custom checkbox style */
+.todo input[type="checkbox"]+label {
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    /* Prevent text selection */
+}
+
+/* Create the custom checkbox */
+.todo input[type="checkbox"]+label::before {
+    content: '';
+    display: inline-block;
+    /* Allow it to sit inline with label text */
+    width: 15px;
+    /* Width of the custom checkbox */
+    height: 15px;
+    /* Height of the custom checkbox */
+    border: 2px solid #ccc;
+    /* Light gray border color */
+    border-radius: 3px;
+    /* Slightly rounded corners */
+    background-color: white;
+    /* Background color */
+    transition: background-color 0.3s, border-color 0.3s;
+    /* Smooth transition */
+    vertical-align: middle;
+    /* Align with text */
+    margin-right: 10px;
+    /* Space between checkbox and label text */
+}
+
+/* Checked state */
+.todo input[type="checkbox"]:checked+label::before {
+    background-color: rgba(76, 175, 80, 0.5);
+    /* Green background when checked */
+    border-color: transparent;
+    /* Border color when checked */
+}
+
+/* Checkmark */
+.todo input[type="checkbox"]:checked+label::after {
+    content: '';
+    position: absolute;
+    left: 7px;
+    /* Adjust position of checkmark */
+    top: 5.5px;
+    /* Adjust position of checkmark */
+    width: 3px;
+    /* Width of checkmark */
+    height: 7px;
+    /* Height of checkmark */
+    border: solid white;
+    /* Color of checkmark */
+    border-width: 0 2px 2px 0;
+    /* Create a checkmark shape */
+    transform: rotate(45deg);
+    /* Rotate to form a checkmark */
+    display: block;
+    /* Ensure the checkmark is displayed */
+}
+
+.todo label {
+    font-size: 16px;
+    color: #666;
+}
+
+.todo li {
+    display: flex;
+    align-items: center;
+    /* Center vertically */
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    justify-content: space-between;
+    /* Space between label and icons */
+}
+
+.todo-icons {
+    display: flex;
+    /* Keep icons in a row */
+    margin-left: auto;
+    /* Push icons to the right */
+    gap: 10px;
+}
+
+.todo-icons a {
+    color: #666;
+    /* Default color for icons */
+    text-decoration: none;
+    margin-left: 5px;
+    /* Space between icons */
+}
+
+.todo-icons a:hover {
+    color: #333;
+    /* Change color on hover for edit icon */
+}
+
+.todo-icons .delete-icon:hover {
+    color: #ff6666;
+    /* Change color to red on hover for delete icon */
+}
+
+/* Style for the entire list item when completed */
+.todo li.completed {
+    pointer-events: none;
+    /* Disable interactions for the entire list item */
+}
+
+/* Ensure the edit icon is faded */
+.todo li.completed .edit-icon {
+    opacity: 0.5;
+    /* Reduce opacity for edit icon */
+    pointer-events: none;
+    /* Disable interaction */
+}
+
+/* Ensure the delete icon remains active */
+.todo li.completed .delete-icon {
+    pointer-events: auto;
+    /* Allow interaction with the delete icon */
+    color: #666;
+    /* Color for delete icon */
+    opacity: 1;
+    /* Ensure delete icon is fully visible */
+}
+
+/* Optional: Change color on hover for the delete icon */
+.todo li.completed .delete-icon:hover {
+    color: #f00;
+    /* Change color for delete icon on hover */
+}
+
+/* Ensure the label shows line-through when completed */
+.todo li.completed label {
+    text-decoration: line-through;
+    /* Add line-through for completed tasks */
+    color: #999;
+    /* Optional: change text color to indicate completion */
+    display: inline-block;
+    /* Ensure label behaves like a block for proper alignment */
+    width: 100%;
+    /* Make sure it takes the full width */
+}
+
+/* Ensure the checkbox is faded */
+.todo ul li.completed input[type="checkbox"] {
+    opacity: 0.5;
+    /* Reduce opacity for checkbox */
+}
+
+/* General overlay styles */
+.overlay,
+.editOverlay {
+    display: none;
+    /* Initially hidden */
+    position: fixed;
+    /* Fixed position to cover the entire viewport */
+    top: 0;
+    /* Align to the top */
+    left: 0;
+    /* Align to the left */
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    background-color: rgba(0, 0, 0, 0.7);
+    /* Darker semi-transparent background */
+    z-index: 1;
+    /* Ensure it sits above other content */
+    pointer-events: all;
+    /* Capture all mouse events */
+}
+
+/* Center wrapper styles */
+.center-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    /* Ensure it sits above the overlay */
+}
+
+/* Container styles */
+.container {
+    max-width: 500px;
+    /* Set a maximum width for the container */
+    width: 100%;
+    /* Allow the container to take full width up to max-width */
+    background: white;
+    /* Background color of the container */
+    padding: 20px;
+    /* Padding inside the container */
+    border-radius: 8px;
+    /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow for depth */
+}
+
+/* Form styles */
+form {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    gap: 30px;
+}
+
+/* Input styles */
+input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid rgba(119, 183, 255, 0.986);
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus {
+    border-color: #0056b3;
+}
+
+/* Button styles */
+.container button {
+    border: 1px solid #111;
+    color: #111;
+    border-radius: 7px;
+    padding: 10px;
+    background-color: #fff;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+
+
+/* Close button styles */
+.container .close-btn,
+.container .close-edit-btn {
+    position: absolute;
+    /* Position it absolutely within the container */
+    top: 10px;
+    /* Distance from the top */
+    right: 10px;
+    /* Distance from the right */
+    background-color: transparent;
+    /* Transparent background */
+    border: none;
+    /* No border */
+    color: #d00000;
+    /* Red color for visibility */
+    font-size: 20px;
+    /* Increase font size for better visibility */
+    cursor: pointer;
+    /* Change cursor to pointer */
+    transition: 0.3s ease;
+}
+
+/* Ensure the close button does not have extra borders */
+.container .close-btn:focus,
+.container .close-edit-btn:focus {
+    outline: none;
+    /* Remove default focus outline */
+}
+
+/* Additional styles for the buttons */
+.container .close-btn:hover,
+.container .close-edit-btn:hover {
+    color: #a00000;
+    /* Darker red on hover */
+    border: none;
+}
+
+.oops {
+    padding: 0px;
+    margin: 30px -10px;
+    font-size: 25px;
+    color: #B0B0B0;
+    pointer-events: none;
+    font-weight: 400;
+}
+
+/* Overlay for Logout Confirmation */
+/* Overlay for Logout Confirmation */
+.logoutOverlay {
+    display: none;
+    /* Initially hidden */
+    position: fixed;
+    /* Fixed position to cover the entire viewport */
+    top: 0;
+    /* Align to the top */
+    left: 0;
+    /* Align to the left */
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    background-color: rgba(0, 0, 0, 0.7);
+    /* Darker semi-transparent background */
+    z-index: 1;
+    /* Ensure it sits above other content */
+    pointer-events: all;
+    /* Capture all mouse events */
+}
+
+.logout p {
+    padding: 20px;
+    font-size: 20px;
+}
+
+/* Center wrapper styles for Logout Confirmation */
+#logout-form-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    /* Ensure it sits above the overlay */
+}
+
+/* Container styles for Logout Confirmation */
+#logout-form-wrapper .container {
+    max-width: 400px;
+    /* Set a maximum width for the container */
+    width: 100%;
+    /* Allow the container to take full width up to max-width */
+    background: white;
+    /* Background color of the container */
+    border-radius: 8px;
+    /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow for depth */
+}
+
+/* Button styles for Logout Confirmation */
+.logout-confirm-btn {
+    border: none;
+    color: white;
+    background-color: red;
+    /* Red background */
+    border-radius: 7px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.logout-confirm-btn:hover {
+    background-color: darkred;
+    /* Dark red on hover */
+}
+
+.close-logout-btn {
+    position: absolute;
+    /* Position it absolutely within the container */
+    top: 10px;
+    /* Distance from the top */
+    right: 10px;
+    /* Distance from the right */
+    background-color: transparent;
+    /* Transparent background */
+    border: none;
+    padding: 10px;
+    /* No border */
+    color: #d00000;
+    /* Red color for visibility */
+    font-size: 20px;
+    /* Increase font size for better visibility */
+    cursor: pointer;
+    /* Change cursor to pointer */
+    transition: 0.3s ease;
+}
+
+.close-logout-btn:hover {
+    border: none;
+    /* No border */
+    color: #8f0000;
+    /* Increase font size for better visibility */
+    cursor: pointer;
+}
+
+.logout {
+
+    max-width: 500px;
+    /* Set a maximum width for the container */
+    width: 100%;
+    /* Allow the container to take full width up to max-width */
+    background: white;
+    /* Background color of the container */
+    padding: 40px;
+    /* Padding inside the container */
+    border-radius: 8px;
+    /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow for depth */
+
+}
+
+.logout p {
+    padding: 20px;
+}
+
+.logout .logout-confirm-btn {
+    position: relative;
+    display: flex;
+    padding: 10px;
+    background-color: #d00000;
+    border: none;
+    border-radius: 7px;
+    margin: auto;
+}
+
+.logout .logout-confirm-btn:hover {
+    position: relative;
+    display: flex;
+    padding: 10px;
+    background-color: #a00000 ;
+    border: none;
+    border-radius: 7px;
+}
+
+.logout-message {
+    display: none;
+}
